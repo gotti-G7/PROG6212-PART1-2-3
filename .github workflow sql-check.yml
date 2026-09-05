@@ -1,0 +1,28 @@
+name: SQL CI/CD
+on:
+push:
+branches:
+- main
+pull_request:
+branches:
+- main
+
+jobs:
+sql-check:
+runs-on: ubuntu-latest
+
+steps:
+- naame: Checkout repository
+ uses: actions/checkout@v4
+
+ - name: Check SQL script
+ run: 
+ if [ -s "SQLQuery1/sql"];
+ then
+ echo "SQL scripts found and is not empty." 
+ else
+ echo "SQLQuery1.sql is missing or empty."
+ exit 1
+ fi
+ - name: CI/CD build successful
+ run: echo "RaceDay SQL CI/CD build completed successfully."
