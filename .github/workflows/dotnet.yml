@@ -1,0 +1,39 @@
+
+name: RaceDay API CI
+
+on:
+  push:
+    paths:
+      - 'PROG6212-PART1-2-3/**'
+      - '.github/workflows/dotnet.yml'
+  pull_request:
+    paths:
+      - 'PROG6212-PART1-2-3/**'
+      - '.github/workflows/dotnet.yml'
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        working-directory: ./PROG6212-PART1-2-3
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore packages
+        run: dotnet restore
+
+      - name: Build solution
+        run: dotnet build --no-restore
+
+      - name: Run unit tests
+        run: dotnet test --no-build --verbosity normal
